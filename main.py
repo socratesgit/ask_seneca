@@ -1,11 +1,20 @@
 import streamlit as st
 import random as rd
-from ask_seneca import ask
+from ask_seneca import Seneca
 
 st.set_page_config(
     page_title="Seneca",
     page_icon="img/seneca_emoji.png",
 )
+
+@st.cache_resource
+def seneca():
+    seneca = Seneca(
+        openai_api_key=st.secrets['OPENAI_API_KEY'],
+        pinecone_api_key=st.secrets['PINECONE_API_KEY'],
+        pinecone_api_env=st.secrets['PINECONE_API_ENV'],
+    )
+    return seneca
 
 DEFAULT_QUESTIONS = [
     'Quali sono le caratteristiche di un buon amico?',
@@ -14,7 +23,7 @@ DEFAULT_QUESTIONS = [
     'Cosa devo fare per acquistare la serenità?',
 ]
 
-if not st.session_state.question:
+if 'question' not in st.session_state:
     st.session_state.question = ''
     
 
@@ -45,11 +54,17 @@ with col2:
 
     text_area = st.empty()
 
-    if st.session_state.question:
+    if st.session_state.question == '':
 
-        st.session_state.question = text_area.text_area(label='Chiedi qualcosa a Seneca', 
-                                        value=st.session_state.question,
-                                        height=100)
+        st.session_state.question = text_area.text_area(label='Chiedi qualcosa a Seneca',
+                                            height=100)
+    
+    else:
+            
+        st.session_state.question = text_area.text_area(label='Chiedi qualcosa a Seneca',
+                                                value=st.session_state.question,
+                                                height=100,
+                                                key='question1')
 
     col2_1, col2_2 = st.columns([2, 1])
 
@@ -59,7 +74,8 @@ with col2:
 
             st.session_state.question = text_area.text_area(label='Chiedi qualcosa a Seneca', 
                                     value=rd.choice(DEFAULT_QUESTIONS),
-                                    height=100)
+                                    height=100,
+                                    key='question2')
             
             
     
@@ -74,9 +90,9 @@ with col2:
     if ask_ok:
 
         if st.session_state.question:
-            #add spinner
+            
             with st.spinner('Sto elucubrando...'):
-                answer = ask(st.session_state.question)
+                answer = seneca().ask(st.session_state.question)
 
     
     if answer:

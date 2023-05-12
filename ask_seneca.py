@@ -12,19 +12,26 @@ OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY')
 PINECONE_API_ENV = os.environ.get('PINECONE_API_ENV')
 
-llm = OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY)
-chain = load_qa_chain(llm, chain_type="stuff")
+class Seneca:
 
-embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+    def __init__(self, 
+                    openai_api_key = OPENAI_API_KEY,
+                    pinecone_api_key = PINECONE_API_KEY,
+                    pinecone_api_env = PINECONE_API_ENV,
+                 ) -> None:
+        self.llm = OpenAI(temperature=0, openai_api_key=openai_api_key)
+        self.chain = load_qa_chain(self.llm, chain_type="stuff")
+        self.embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
 
-pinecone.init(
-    api_key=PINECONE_API_KEY,  # find at app.pinecone.io
-    environment=PINECONE_API_ENV  # next to api key in console
-)
-index_name = "langchaintest"
+        pinecone.init(
+            api_key=pinecone_api_key,  # find at app.pinecone.io
+            environment=pinecone_api_env  # next to api key in console
+        )
 
-docsearch = Pinecone.from_existing_index(index_name, embeddings)
+        self.index_name = "langchaintest"
 
-def ask(question):
-    docs = docsearch.similarity_search(question)
-    return chain.run(input_documents=docs, question=question)
+        self.docsearch = Pinecone.from_existing_index(self.index_name, self.embeddings)
+
+    def ask(self, question):
+        docs = self.docsearch.similarity_search(question)
+        return self.chain.run(input_documents=docs, question=question)
