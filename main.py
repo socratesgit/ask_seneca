@@ -72,10 +72,7 @@ with col2:
 
         if st.button('Non sono sicuro di cosa chiedere'):
 
-            st.session_state.question = text_area.text_area(label='Chiedi qualcosa a Seneca', 
-                                    value=rd.choice(DEFAULT_QUESTIONS),
-                                    height=100,
-                                    key='question2')
+            st.session_state.question = rd.choice(DEFAULT_QUESTIONS)
             
             
     
