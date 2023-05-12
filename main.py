@@ -63,14 +63,14 @@ with col2:
             
         st.session_state.question = text_area.text_area(label='Chiedi qualcosa a Seneca',
                                                 value=st.session_state.question,
-                                                height=100,
-                                                key='question1')
+                                                height=100)
 
     col2_1, col2_2 = st.columns([2, 1])
 
     with col2_1:
 
-        if st.button('Non sono sicuro di cosa chiedere'):
+        if st.button('Non sono sicuro di cosa chiedere',
+                     key='default_question'):
 
             st.session_state.question = rd.choice(DEFAULT_QUESTIONS)
             
@@ -80,7 +80,8 @@ with col2:
 
         ask_ok = False
 
-        if st.button('Chiedi a Seneca'):
+        if st.button('Chiedi a Seneca',
+                      key='ask_seneca'):
 
             ask_ok = True
         
@@ -90,6 +91,9 @@ with col2:
             
             with st.spinner('Sto elucubrando...'):
                 answer = seneca().ask(st.session_state.question)
+
+
+
 
     
     if answer:
