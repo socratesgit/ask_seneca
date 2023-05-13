@@ -52,14 +52,7 @@ with col2:
 
     answer = None
 
-    if st.session_state.question == '':
-
-        st.session_state.question = st.text_area(label='Chiedi qualcosa a Seneca',
-                                            height=100)
-    
-    else:
-            
-        st.session_state.question = st.text_area(label='Chiedi qualcosa a Seneca',
+    question_input = st.session_state.question = st.text_area(label='Chiedi qualcosa a Seneca',
                                                 value=st.session_state.question,
                                                 height=100)
 
@@ -71,7 +64,7 @@ with col2:
                      key='default_question'):
             
             st.session_state.question = rd.choice(DEFAULT_QUESTIONS)
-            
+            st.experimental_rerun()
             
     
     with col2_2:
