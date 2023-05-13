@@ -19,7 +19,7 @@ class Seneca:
                     pinecone_api_key = PINECONE_API_KEY,
                     pinecone_api_env = PINECONE_API_ENV,
                  ) -> None:
-        self.llm = OpenAI(temperature=0, openai_api_key=openai_api_key)
+        self.llm = OpenAI(temperature=0.5, openai_api_key=openai_api_key)
         self.chain = load_qa_chain(self.llm, chain_type="stuff")
         self.embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
 
