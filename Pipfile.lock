@@ -1782,11 +1782,11 @@
         },
         "unstructured": {
             "hashes": [
-                "sha256:5abf294fc35493c6d68b97a80eb84b2d2d2ec981a382010cdd0f1893b5d64785",
-                "sha256:5ae2152a5e325581b2f5387d95e93d6be4de7cdae1758adbb2149ec621f09cdd"
+                "sha256:0f8a8e069f9a5991bc22a215c248941a6259694d71f002b9f1974e9b47c35159",
+                "sha256:7d939bc57c661210d4b67204360990817a3c05c05b859703f61905ce66114047"
             ],
             "index": "pypi",
-            "version": "==0.6.5"
+            "version": "==0.6.6"
         },
         "urllib3": {
             "hashes": [
